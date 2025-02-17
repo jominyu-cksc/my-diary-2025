@@ -1,21 +1,10 @@
 import DiaryList from '../components/DiaryList';
+import { sampleDiary } from '../data/Diary';
 import logo from '../logo.svg';
 
 function Home() {
-    const items = [
-        {
-            date: new Date(),
-            title: 'First',
-        },
-        {
-            date: new Date(),
-            title: 'Second',
-        },
-        {
-            date: new Date(),
-            title: 'Pangatlo',
-        },
-    ]
+    const items = sampleDiary
+
     return (
         <header className="App-header">
             <DiaryList items={items} />
