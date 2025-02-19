@@ -3,6 +3,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import { blue, green, pink, red, yellow } from '@mui/material/colors';
 
 export type DiaryEntry = {
     id: string,
@@ -15,7 +16,6 @@ export type DiaryEntry = {
 export type MoodType = {
     mood: number,
     text: string,
-    color?: string,
     icon?: any,
 }
 
@@ -23,23 +23,23 @@ export const moodList: MoodType[] = [
     {
         mood: 1,
         text: 'Happy',
-        icon: SentimentSatisfiedAltIcon,
+        icon: <SentimentSatisfiedAltIcon sx={{ color: yellow[700], fontSize: 'inherit' }} />,
     }, {
         mood: 2,
         text: 'Sad',
-        icon: SentimentVeryDissatisfiedIcon,
+        icon: <SentimentVeryDissatisfiedIcon sx={{ color: blue[900], fontSize: 'inherit' }} />,
     }, {
         mood: 3,
         text: 'Love',
-        icon: FavoriteIcon,
+        icon: <FavoriteIcon sx={{ color: pink[500], fontSize: 'inherit' }} />,
     }, {
         mood: 4,
         text: 'Angry',
-        icon: ElectricBoltIcon,
+        icon: <ElectricBoltIcon sx={{ color: red[700], fontSize: 'inherit' }} />,
     }, {
         mood: 5,
         text: 'Hungry',
-        icon: FastfoodIcon,
+        icon: <FastfoodIcon sx={{ color: green[700], fontSize: 'inherit' }} />,
     }
 ]
 
@@ -53,7 +53,28 @@ export const sampleDiary: DiaryEntry[] = [
     },
     {
         id: '2',
+        mood: 2,
+        date: new Date(),
+        title: 'My first sad entry',
+        content: 'My first entry din.'
+    },
+    {
+        id: '3',
+        mood: 3,
+        date: new Date(),
+        title: 'My first entry',
+        content: 'My first entry din.'
+    },
+    {
+        id: '4',
         mood: 4,
+        date: new Date(),
+        title: 'My first hunger, silent h',
+        content: 'My first hunger din.'
+    },
+    {
+        id: '5',
+        mood: 5,
         date: new Date(),
         title: 'My first hunger',
         content: 'My first hunger din.'
