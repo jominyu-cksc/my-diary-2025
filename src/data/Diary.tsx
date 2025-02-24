@@ -5,7 +5,7 @@ import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { blue, green, pink, red, yellow } from '@mui/material/colors';
 
-export type DiaryEntry = {
+export type DiaryEntryType = {
     id: string,
     mood: number,
     date: Date,
@@ -43,7 +43,7 @@ export const moodList: MoodType[] = [
     }
 ]
 
-export const sampleDiary: DiaryEntry[] = [
+export const sampleDiary: DiaryEntryType[] = [
     {
         id: '1',
         mood: 1,

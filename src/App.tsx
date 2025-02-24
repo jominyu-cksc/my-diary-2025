@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import AdbIcon from '@mui/icons-material/Adb';
+import DiaryEntry from './pages/DiaryEntry';
 
 const pages = ['Home', 'Map', 'Food', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Register', 'Login', 'Logout'];
@@ -183,6 +184,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="map" element={<Map />} />
+        <Route path="diaryentry" element={<DiaryEntry />} />
       </Routes>
     </div>
   );

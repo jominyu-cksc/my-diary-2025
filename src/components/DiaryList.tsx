@@ -1,14 +1,20 @@
+import { createSearchParams, useNavigate } from "react-router";
+
 import Card from "@mui/material/Card"
 import Typography from "@mui/material/Typography"
-import { pink } from "@mui/material/colors"
-import HomeIcon from '@mui/icons-material/Home';
-import { moodList } from "../data/Diary";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from '@mui/icons-material/Edit';
+
+import { moodList } from "../data/Diary";
 
 export function DiaryItem(props: any) {
     const { item } = props
+
+    const navigate = useNavigate()
+
     //console.log(item)
     //console.log(moodList[item.mood - 1].icon)
     const icon = moodList[item.mood - 1].icon//icons[item.mood]
@@ -20,17 +26,20 @@ export function DiaryItem(props: any) {
                         <Grid size={4}>
                             <Box sx={{ fontSize: '2em' }}>{icon}</Box>
                         </Grid>
-                        <Grid size={8} justifyContent='left' alignItems='flex-start'>
+                        <Grid size={7} justifyContent='left' alignItems='flex-start'>
                             <Typography sx={{ mt: 1, justifyContent: 'flex-start' }}>{item.date.toLocaleString()}</Typography>
                             <Typography>{item.title}</Typography>
                         </Grid>
-                        <Grid size={12}>
-                            <Typography>{item.content}</Typography>
-                        </Grid>
+                        <Grid size={1}>
+                            <IconButton onClick={() => navigate({ pathname: 'diaryentry', search: createSearchParams({ id: item.id }).toString()}) } > <EditIcon /></IconButton>
+                    </Grid>
+                    <Grid size={12}>
+                        <Typography>{item.content}</Typography>
                     </Grid>
                 </Grid>
-            </CardContent>
-        </Card>
+            </Grid>
+        </CardContent>
+        </Card >
     )
 }
 

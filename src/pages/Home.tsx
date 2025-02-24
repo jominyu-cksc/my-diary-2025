@@ -1,25 +1,24 @@
+import { useNavigate } from 'react-router';
+
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
+
 import DiaryList from '../components/DiaryList';
 import { sampleDiary } from '../data/Diary';
-import logo from '../logo.svg';
 
 function Home() {
     const items = sampleDiary
+    
+    const navigate = useNavigate()
 
     return (
-        <header className="App-header">
+        <header>
             <DiaryList items={items} />
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-                Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Learn React po!
-            </a>
+            <Fab color="primary" aria-label="add" className='fab'
+                sx={{ position: 'fixed', bottom: '24px', right: '24px' }}
+                onClick={() => navigate('diaryentry')}>
+                <AddIcon />
+            </Fab>
         </header>
     )
 }
