@@ -7,13 +7,15 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { toDateTimeLocalString } from './DiaryEntry';
 import { Typography } from '@mui/material';
+import { FirebaseApp } from 'firebase/app';
+import { Auth } from 'firebase/auth';
 
 const regStyle = {
     m: 1,
     minWidth: '20em',
 }
 
-function Register() {
+function Register(props: { firebaseApp: FirebaseApp, auth: Auth}) {
 
     const [entry, setEntry] = useState({
         name: '',
