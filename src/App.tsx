@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Link, Route, Routes, useNavigate } from 'react-router';
 
-import { initializeApp } from "firebase/app";
+import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 import Home from './pages/Home';
@@ -24,25 +24,18 @@ import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import AdbIcon from '@mui/icons-material/Adb';
 import DiaryEntry from './pages/DiaryEntry';
+import { firebaseConfig } from './FirebaseConfig';
+import { getFirestore } from 'firebase/firestore';
 
 const pages = ['Home', 'Map', 'Food', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Register', 'Login', 'Logout'];
 
 function App() {
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDkm-BusqDPk8xL-_XxomaIYqJmNBK3_ik",
-    authDomain: "app-dev-2025.firebaseapp.com",
-    projectId: "app-dev-2025",
-    storageBucket: "app-dev-2025.firebasestorage.app",
-    messagingSenderId: "485709267372",
-    appId: "1:485709267372:web:b912a6cd24e539fb0e7a09",
-    measurementId: "G-2BF0WTMRH9"
-  };
-
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -203,7 +196,7 @@ function App() {
         </Container>
       </AppBar>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home auth={auth} db={db} />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register firebaseApp={app} auth={auth} />} />
         <Route path="map" element={<Map />} />

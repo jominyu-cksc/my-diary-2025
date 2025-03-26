@@ -17,7 +17,7 @@ export function DiaryItem(props: any) {
 
     //console.log(item)
     //console.log(moodList[item.mood - 1].icon)
-    const icon = moodList[item.mood - 1].icon//icons[item.mood]
+    const icon = moodList[item.mood].icon//icons[item.mood]
     return (
         <Card variant="outlined" sx={{ my: 0.2, px: 0.5, mb: 0.5, minWidth: 275 }}>
             <CardContent>

@@ -4,12 +4,24 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 
 import DiaryList from '../components/DiaryList';
-import { sampleDiary } from '../data/Diary';
+import { DiaryEntryType, sampleDiary } from '../data/Diary';
+import { StorageService } from '../service/StorageService';
+import { useEffect, useState } from 'react';
 
-function Home() {
-    const items = sampleDiary
+function Home(props: any) {
+
+    const { db, auth } = props
+
+    const [items, setItems] = useState<DiaryEntryType[]>([])
     
     const navigate = useNavigate()
+    const storageService = new StorageService(auth, db)
+
+    useEffect(() => {
+        storageService.getEntries('').then(entries => {
+            setItems(entries)
+        })
+    }, [])
 
     return (
         <header>
