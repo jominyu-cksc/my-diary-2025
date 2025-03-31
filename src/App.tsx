@@ -200,7 +200,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register firebaseApp={app} auth={auth} />} />
         <Route path="map" element={<Map />} />
-        <Route path="diaryentry" element={<DiaryEntry />} />
+        <Route path="diaryentry" element={<DiaryEntry auth={auth} db={db} />} />
       </Routes>
     </div>
   );

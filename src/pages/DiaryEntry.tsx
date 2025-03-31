@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { format } from 'date-fns/format';
 
 import { DiaryEntryType, moodList, sampleDiary } from '../data/Diary';
+import { StorageService } from '../service/StorageService';
 
 export const toDateTimeLocalString = (date: Date) => {
     return format(date, 'yyyy-MM-dd\'T\'HH:mm:ss')
@@ -23,8 +24,9 @@ const regStyle = {
     minWidth: '20em',
 }
 
-function DiaryEntry() {
-    const items = sampleDiary
+function DiaryEntry(props: any) {
+
+    const { db, auth } = props
 
     const [entry, setEntry] = useState<DiaryEntryType>({
         id: '',
@@ -34,6 +36,8 @@ function DiaryEntry() {
         content: '',
     });
 
+    const storageService = new StorageService(auth, db)
+
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -41,11 +45,11 @@ function DiaryEntry() {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.has('id')) {
             const id = searchParams.get('id')
-            const found = items.find(item => item.id === id)
-            if (found) {
-                console.log(found)
-                setEntry(found)
-            }
+            storageService.getEntry(id ?? '').then(entry => {
+                if (entry) {
+                    setEntry(entry)
+                }
+            }).catch(error => console.log(error))    
         }
     }, [location])
 
@@ -54,8 +58,9 @@ function DiaryEntry() {
             return
         }
         if (entry.id === '') {
-            entry.id = (items.length + 1) + ''
-            items.push(entry)
+            storageService.addEntry(entry)
+        } else {
+            storageService.updateEntry(entry)
         }
     }
 

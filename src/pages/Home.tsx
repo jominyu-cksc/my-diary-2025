@@ -20,7 +20,7 @@ function Home(props: any) {
     useEffect(() => {
         storageService.getEntries('').then(entries => {
             setItems(entries)
-        })
+        }).catch(error => console.log(error))
     }, [])
 
     return (

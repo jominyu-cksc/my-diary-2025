@@ -1,5 +1,5 @@
 import { Auth } from "firebase/auth";
-import { collection, Firestore, getDocs, query, where } from "firebase/firestore"; 
+import { addDoc, collection, doc, Firestore, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { DiaryEntryType } from "../data/Diary";
 
 export class StorageService {
@@ -13,8 +13,10 @@ export class StorageService {
     }
 
     public async getEntries(filter: string): Promise<DiaryEntryType[]> {
-        const entriesRef = collection(this.db, "entries");
-        const q = query(entriesRef, where("userId", "==", this.auth.currentUser?.uid ?? ''))
+        const entriesRef = collection(this.db, "entries")
+        const q = query(entriesRef,
+            where("userId", "==", this.auth.currentUser?.uid ?? '')
+        )
         const querySnapshot = await getDocs(q)
         const entries: DiaryEntryType[] = []
         querySnapshot.forEach((doc) => {
@@ -24,10 +26,51 @@ export class StorageService {
                 mood: data.mood,
                 date: new Date(data.dateTime),
                 title: data.title,
-                content: data.content,            
+                content: data.content,
             })
         })
         //console.log(entries)
         return entries
+    }
+
+    public async getEntry(id: string): Promise<DiaryEntryType | null> {
+        const docRef = doc(this.db, "entries", id)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+            const data = docSnap.data()
+            if (data.userId !== (this.auth.currentUser?.uid ?? '')) {
+                // security breach
+                return null
+            }
+            return {
+                id: docSnap.id,
+                mood: data.mood,
+                date: new Date(data.dateTime),
+                title: data.title,
+                content: data.content,
+            }
+        } else {
+            return null
+        }
+    }
+
+    public async addEntry(entry: DiaryEntryType) {
+        const docRef = await addDoc(collection(this.db, "entries"), {
+            mood: entry.mood,
+            dateTime: entry.date.toJSON(),
+            title: entry.title,
+            content: entry.content,
+            userId: this.auth.currentUser?.uid ?? '',
+        });
+    }
+
+    public async updateEntry(entry: DiaryEntryType) {
+        await setDoc(doc(this.db, "entries", entry.id), {
+            mood: entry.mood,
+            dateTime: entry.date.toJSON(),
+            title: entry.title,
+            content: entry.content,
+            userId: this.auth.currentUser?.uid ?? '',
+        });
     }
 }
