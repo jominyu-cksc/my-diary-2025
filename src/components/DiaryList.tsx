@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid2";
 import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { moodList } from "../data/Diary";
 
@@ -16,8 +17,7 @@ export function DiaryItem(props: any) {
     const navigate = useNavigate()
 
     //console.log(item)
-    //console.log(moodList[item.mood - 1].icon)
-    const icon = moodList[item.mood - 1].icon//icons[item.mood]
+    const icon = moodList[item.mood].icon
     return (
         <Card variant="outlined" sx={{ my: 0.2, px: 0.5, mb: 0.5, minWidth: 275 }}>
             <CardContent>
@@ -26,19 +26,23 @@ export function DiaryItem(props: any) {
                         <Grid size={4}>
                             <Box sx={{ fontSize: '2em' }}>{icon}</Box>
                         </Grid>
-                        <Grid size={7} justifyContent='left' alignItems='flex-start'>
+                        <Grid size={6} justifyContent='left' alignItems='flex-start'>
                             <Typography sx={{ mt: 1, justifyContent: 'flex-start' }}>{item.date.toLocaleString()}</Typography>
                             <Typography>{item.title}</Typography>
                         </Grid>
+                        <Grid size={1} justifyContent='right' alignItems='flex-end'>
+                            <Typography sx={{ mt: 1, justifyContent: 'flex-end' }}>★ {item.star}</Typography>
+                        </Grid>
                         <Grid size={1}>
-                            <IconButton onClick={() => navigate({ pathname: 'diaryentry', search: createSearchParams({ id: item.id }).toString()}) } > <EditIcon /></IconButton>
-                    </Grid>
-                    <Grid size={12}>
-                        <Typography>{item.content}</Typography>
+                            <IconButton onClick={() => navigate({ pathname: 'diaryentry', search: createSearchParams({ id: item.id }).toString() })} > <EditIcon /></IconButton>
+                            <IconButton onClick={() => navigate({ pathname: 'diaryview', search: createSearchParams({ id: item.id }).toString() })} > <VisibilityIcon /></IconButton>
+                        </Grid>
+                        <Grid size={12}>
+                            <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </CardContent>
+            </CardContent>
         </Card >
     )
 }

@@ -26,6 +26,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import DiaryEntry from './pages/DiaryEntry';
 import { firebaseConfig } from './FirebaseConfig';
 import { getFirestore } from 'firebase/firestore';
+import DiaryView from './pages/DiaryView';
 
 const pages = ['Home', 'Map', 'Food', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Register', 'Login', 'Logout'];
@@ -201,6 +202,7 @@ function App() {
         <Route path="register" element={<Register firebaseApp={app} auth={auth} />} />
         <Route path="map" element={<Map />} />
         <Route path="diaryentry" element={<DiaryEntry auth={auth} db={db} />} />
+        <Route path="diaryview" element={<DiaryView auth={auth} db={db} />} />
       </Routes>
     </div>
   );

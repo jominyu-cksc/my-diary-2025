@@ -1,5 +1,5 @@
 import { Auth } from "firebase/auth";
-import { addDoc, collection, doc, Firestore, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, doc, Firestore, getDoc, getDocs, orderBy, query, setDoc, where } from "firebase/firestore";
 import { DiaryEntryType } from "../data/Diary";
 
 export class StorageService {
@@ -15,7 +15,8 @@ export class StorageService {
     public async getEntries(filter: string): Promise<DiaryEntryType[]> {
         const entriesRef = collection(this.db, "entries")
         const q = query(entriesRef,
-            where("userId", "==", this.auth.currentUser?.uid ?? '')
+            where("userId", "==", this.auth.currentUser?.uid ?? ''),
+            orderBy("dateTime", "desc")
         )
         const querySnapshot = await getDocs(q)
         const entries: DiaryEntryType[] = []
@@ -24,6 +25,7 @@ export class StorageService {
             entries.push({
                 id: doc.id,
                 mood: data.mood,
+                star: data.star,
                 date: new Date(data.dateTime),
                 title: data.title,
                 content: data.content,
@@ -45,6 +47,7 @@ export class StorageService {
             return {
                 id: docSnap.id,
                 mood: data.mood,
+                star: data.star,
                 date: new Date(data.dateTime),
                 title: data.title,
                 content: data.content,
@@ -57,6 +60,7 @@ export class StorageService {
     public async addEntry(entry: DiaryEntryType) {
         const docRef = await addDoc(collection(this.db, "entries"), {
             mood: entry.mood,
+            star: entry.star,
             dateTime: entry.date.toJSON(),
             title: entry.title,
             content: entry.content,
@@ -67,6 +71,7 @@ export class StorageService {
     public async updateEntry(entry: DiaryEntryType) {
         await setDoc(doc(this.db, "entries", entry.id), {
             mood: entry.mood,
+            star: entry.star,
             dateTime: entry.date.toJSON(),
             title: entry.title,
             content: entry.content,
